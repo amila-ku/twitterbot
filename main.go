@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/ChimeraCoder/anaconda"
 )
 
-const (
-	consumerKey       = ""
-	consumerSecret    = ""
-	accessToken       = ""
-	accessTokenSecret = ""
+var (
+	consumerKey       = os.Getenv("CONSUMER_KEY")
+	consumerSecret    = os.Getenv("CONSUMER_SECRET")
+	accessToken       = os.Getenv("ACCESS_TOKEN")
+	accessTokenSecret = os.Getenv("ACCESS_TOKEN_SECRET")
 )
 
 func main() {
