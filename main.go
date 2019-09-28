@@ -67,6 +67,14 @@ func (log *logger) Critical(args ...interface{}) {
 	log.Error(args...)
 }
 
-func (log *logger) Criticalf(args ...interface{}) {
-	log.Errorf(args...)
+func (log *logger) Criticalf(format string, args ...interface{}) {
+	log.Errorf(format, args...)
+}
+
+func (log *logger) Notice(args ...interface{}) {
+	log.Error(args...)
+}
+
+func (log *logger) Noticef(format string, args ...interface{}) {
+	log.Errorf(format, args...)
 }
