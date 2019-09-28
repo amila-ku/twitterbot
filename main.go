@@ -25,7 +25,7 @@ func main() {
 	api.SetLogger(log)
 
 	stream := api.PublicStreamFilter(url.Values{
-		"track": []string{"#golang"},
+		"track": []string{"#cndev"},
 	})
 
 	defer stream.Stop()
@@ -36,15 +36,21 @@ func main() {
 		t, ok := v.(anaconda.Tweet)
 
 		if !ok {
-			logrus.Warningf("%T", v)
+			log.Warningf("%T", v)
 			continue
 		}
+
+		if t.RetweetedStatus != nil {
+			log.Infof("NOT RT", t.Id)
+			continue
+		}
+
 		_, err := api.Retweet(t.Id, false)
 		if err != nil {
-			logrus.Errorf("Error RT %d: %v", t.Id, err)
+			log.Errorf("Error RT %d: %v", t.Id, err)
 			continue
 		}
-		logrus.Infof("Retweeted %d", t.Id)
+		log.Infof("Retweeted %d", t.Id)
 		fmt.Printf("%s\n", t.Text)
 	}
 
