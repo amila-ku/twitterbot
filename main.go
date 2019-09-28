@@ -22,7 +22,7 @@ func main() {
 	api := anaconda.NewTwitterApi(accessToken, accessTokenSecret)
 
 	stream := api.PublicStreamFilter(url.Values{
-		"track": []string{"#world"},
+		"track": []string{"#golang"},
 	})
 
 	defer stream.Stop()
@@ -34,9 +34,20 @@ func main() {
 
 		if !ok {
 			logrus.Warningf("%T", v)
+			continue
 		}
+		_, err := api.Retweet(t.Id, false)
+		if err != nil {
+			logrus.Errorf("Error RT %d: %v", t.Id, err)
+			continue
+		}
+		logrus.Infof("Retweeted %d", t.Id)
 		fmt.Printf("%s\n", t.Text)
 	}
+
+	// for v := range stream.C {
+	// 	fmt.Printf("%v\n", v)
+	// }
 
 	// res, _ := api.GetSearch("golang", nil)
 	// fmt.Print(res)
