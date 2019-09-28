@@ -21,6 +21,9 @@ func main() {
 	anaconda.SetConsumerSecret(consumerSecret)
 	api := anaconda.NewTwitterApi(accessToken, accessTokenSecret)
 
+	log := &logger{logrus.New()}
+	api.SetLogger(log)
+
 	stream := api.PublicStreamFilter(url.Values{
 		"track": []string{"#golang"},
 	})
@@ -54,4 +57,16 @@ func main() {
 	// for _, tweet := range res.Statuses {
 	// 	fmt.Print(tweet.Text)
 	// }
+}
+
+type logger struct {
+	*logrus.Logger
+}
+
+func (log *logger) Critical(args ...interface{}) {
+	log.Error(args...)
+}
+
+func (log *logger) Criticalf(args ...interface{}) {
+	log.Errorf(args...)
 }
